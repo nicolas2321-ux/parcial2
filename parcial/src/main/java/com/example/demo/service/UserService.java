@@ -17,6 +17,6 @@ public interface UserService {
 	void cleanTokens(User user) throws Exception;
 	User login(String usernameOrEmail, String password);
 	
-	
+	User findUserAuthenticated();
 	
 }

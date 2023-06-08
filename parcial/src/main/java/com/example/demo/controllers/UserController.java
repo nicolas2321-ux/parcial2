@@ -74,12 +74,10 @@ public class UserController {
 	  
 	  
 		@PostMapping("/playlist")
-		 public ResponseEntity<?> getPlaylist(@RequestParam(required = false) String username, @RequestParam(required = false) String title){
-			if(username == null) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("identificador es requerido");
-			}else {
+		 public ResponseEntity<?> getPlaylist( @RequestParam(required = false) String title){
+			
 			if(title != null) {
-				User user = userService.getUserByUsername(username);
+				 User user = userService.findUserAuthenticated();
 				if(user != null) {
 					 List<Playlist> playlists = playlistService.getSongsInPlaylistsByUserandTitle(user.getCode(), title);
 					  return new ResponseEntity<>(
@@ -92,7 +90,7 @@ public class UserController {
 				
 			}
 			else {
-			User user = userService.getUserByUsername(username);
+				 User user = userService.findUserAuthenticated();
 			if(user != null) {
 				 List<Playlist> playlists = playlistService.getSongsInPlaylistsByUser(user.getCode());
 				  return new ResponseEntity<>(
@@ -104,7 +102,7 @@ public class UserController {
 			
 			
 		  }
-		}
+		
 		
 		@PostMapping("/login")
 		public ResponseEntity<?> login( @Valid @RequestBody UserLoginDTO info, BindingResult validations){
@@ -112,14 +110,23 @@ public class UserController {
 	        System.out.print(usernameOrEmail);
 	        String password = info.getPassword();
 	        User user = userService.login(usernameOrEmail, password);
-	        System.out.print(user);
+	        User user2 = userService.findUserAuthenticated();
+	        
 			try {
 				Token token = userService.registerToken(user);
-				return new ResponseEntity<>(new tokensDTO(token), HttpStatus.OK);
+//				return new ResponseEntity<>(new tokensDTO(token), HttpStatus.OK);
+				return new ResponseEntity<>(token, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
+		}
+		
+		@PostMapping("/revisar")
+		public ResponseEntity<?> revisarToken(){
+			 User user2 = userService.findUserAuthenticated();
+			 
+			 return new ResponseEntity<>(user2, HttpStatus.OK);
 		}
 
 }

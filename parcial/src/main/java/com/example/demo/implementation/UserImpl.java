@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.UserDto;
@@ -105,6 +106,17 @@ public class UserImpl implements UserService {
 		            return user;
 		        }
 		        return null; // El inicio de sesión falló
+		}
+
+
+		@Override
+		public User findUserAuthenticated() {
+			String username = SecurityContextHolder
+				.getContext()
+				.getAuthentication()
+				.getName();
+			
+			return userRepository.findByUsernameOrEmail(username, username);
 		}
 	
 

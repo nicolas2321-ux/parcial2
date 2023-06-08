@@ -9,6 +9,5 @@ public class PlaylistDto {
 	private String title;
 	@NotEmpty
 	private String description;
-	@NotEmpty
-	private String identifier;
+
 }

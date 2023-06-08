@@ -54,8 +54,8 @@ public class PlaylistController {
 		 }else {
 		String title = playlist.getTitle();
 		String description = playlist.getDescription();
-		String identifier = playlist.getIdentifier();
-		User user = userService.getUserByUsername(identifier);
+		
+		 User user = userService.findUserAuthenticated();
 		if(user == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró ningún usuario con el identificador proporcionado");
 		}else {
