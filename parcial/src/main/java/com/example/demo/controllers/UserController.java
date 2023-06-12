@@ -110,6 +110,9 @@ public class UserController {
 	        System.out.print(usernameOrEmail);
 	        String password = info.getPassword();
 	        User user = userService.login(usernameOrEmail, password);
+	        if(user == null) {
+	        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontro usuario con estas credenciales");
+	        }else {
 	        User user2 = userService.findUserAuthenticated();
 	        
 			try {
@@ -120,6 +123,7 @@ public class UserController {
 				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
+	        }
 		}
 		
 		@PostMapping("/revisar")
