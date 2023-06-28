@@ -51,7 +51,7 @@ public class UserController {
 	  @PostMapping("/signup")
 	  public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationDto registrationDto, BindingResult bindingResult) {
 		  if(bindingResult.hasErrors()) {
-			  return ResponseEntity.ok("Error al introducir las credenciales");
+			  return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al introduccir las credenciales");
 		  }else {
 	      String username = registrationDto.getUsername();
 	      String email = registrationDto.getEmail();

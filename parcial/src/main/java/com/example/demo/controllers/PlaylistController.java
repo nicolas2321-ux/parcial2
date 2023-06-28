@@ -50,6 +50,7 @@ public class PlaylistController {
 	  @PostMapping("/")
 	public ResponseEntity<?> createPlaylist(@Valid @RequestBody PlaylistDto playlist, BindingResult bindingresult){
 		 if(bindingresult.hasErrors()) {
+			 
 			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al llenar los campos");
 		 }else {
 		String title = playlist.getTitle();

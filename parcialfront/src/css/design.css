@@ -1,0 +1,6 @@
+.purple-div {
+    background: linear-gradient(to bottom, #8e44ad, #9333ea);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+  }
