@@ -2,6 +2,9 @@ package com.example.demo.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -74,12 +77,14 @@ public class UserController {
 	  
 	  
 		@PostMapping("/playlist")
-		 public ResponseEntity<?> getPlaylist( @RequestParam(required = false) String title){
+		 public ResponseEntity<?> getPlaylist( @RequestParam(required = false) String title,  @RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "5") int size){
 			
 			if(title != null) {
 				 User user = userService.findUserAuthenticated();
+				 
 				if(user != null) {
-					 List<Playlist> playlists = playlistService.getSongsInPlaylistsByUserandTitle(user.getCode(), title);
+					Pageable pageable = PageRequest.of(page, size);
+					 Page<Playlist> playlists = playlistService.getSongsInPlaylistsByUserandTitle(pageable,user.getCode(), title);
 					  return new ResponseEntity<>(
 								playlists, HttpStatus.OK);
 				}else {

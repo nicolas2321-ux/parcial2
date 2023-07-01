@@ -4,7 +4,20 @@ const BASE_URL = 'http://localhost:8080/'
 
 export const getSongs = async(data) => {
     
-    const response = await fetch(`${BASE_URL}song?titleFragment=${data.cancion}`,{
+    const response = await fetch(`${BASE_URL}song?titleFragment=${data.cancion}&page=${data.page}&limit=5`,{
+        "method": "GET",
+        headers: {
+            "Authorization": `Bearer ${data.token}`,
+            "Content-Type": "application/json"
+          },
+         
+    })
+    const respuesta = await response;
+    return respuesta
+}
+export const getSongsforSelect = async(data) => {
+    
+    const response = await fetch(`${BASE_URL}song`,{
         "method": "GET",
         headers: {
             "Authorization": `Bearer ${data.token}`,
@@ -71,7 +84,7 @@ export const inserPlaylist = async(data) => {
 
 export const buscarPlaylist = async(data) => {
     console.log(data)
-    const response = await fetch(`${BASE_URL}auth/playlist?title=${data.title}`,{
+    const response = await fetch(`${BASE_URL}auth/playlist?title=${data.title}&page=${data.page}`,{
         "method": "POST",
         headers: {
             "Authorization": `Bearer ${data.token}`,

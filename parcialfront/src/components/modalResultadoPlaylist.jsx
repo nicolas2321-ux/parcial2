@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import ModalInsertarCancion from "./modalInsertarCancion";
 import ModalVerCancionesPlaylist from "./modalVerCanciones";
+import Pagination from 'react-bootstrap/Pagination';
 
 export function ModalResultadoPlaylist(props){
     const [playlist, setPlaylist] = useState([])
@@ -12,20 +13,23 @@ export function ModalResultadoPlaylist(props){
     const [idCancion, setIdCancion] = useState()
     const [showInsertar, setShowInsertar] = useState(false)
     const [showCanciones, setShowCanciones] = useState(false)
+    const [page, setPage] = useState(0)
     useEffect(() => {
         const buscar = async() => {
             const object = {
                 token: token,
-                title: props.title
+                title: props.title,
+                page: page
             }
             const res = await buscarPlaylist(object)
+
             const play = await res.json()
-           
-            setPlaylist(play)
+           console.log(play)
+            setPlaylist(play.content)
          }
          buscar()
 
-    }, [props.show])
+    }, [props.show, page])
 
     const handleAgregarCancion = (code) => {
         setIdCancion(code)
@@ -34,6 +38,16 @@ export function ModalResultadoPlaylist(props){
     const handleVerCancion = (code) => {
         setIdCancion(code)
         setShowCanciones(true)
+    }
+    const handlePrev = () => {
+      if(page !== 0){
+        setPage(page-1)
+      }
+    }
+    const hanldeNext = () => {
+    
+        setPage(page+1)
+      
     }
     return(
         <>
@@ -74,7 +88,17 @@ export function ModalResultadoPlaylist(props){
               ))}
             </tbody>
           </table>
+
+          <div style={{ margin: 'auto', display: 'table' }}>
+        <Pagination>
+          <Pagination.Prev onClick={handlePrev}/>
+          <Button variant='primary' disabled>{page+1}</Button>
+          <Pagination.Next onClick={hanldeNext}/>
+        </Pagination>
+        </div>
+
         </Modal.Body>
+        
         <Modal.Footer>
           <Button variant="secondary" onClick={props.onHide}>
             Close

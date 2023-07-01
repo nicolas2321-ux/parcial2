@@ -3,11 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import ModalResultado from './modalResultadoCancion';
+import { useEffect } from 'react';
 export default function  ModalBuscarCancion(props){
     const [nombreCancion, setNombreCancion] = useState('')
     const [showCanciones, setMostarCanciones] = useState(false)
+    useEffect(() => {
+      setNombreCancion('')
+    }, [props.show])
+    
     const handleBuscar = () => {
-        props.onHide()
+        //props.onHide()
         setMostarCanciones(true)
     }
     return(

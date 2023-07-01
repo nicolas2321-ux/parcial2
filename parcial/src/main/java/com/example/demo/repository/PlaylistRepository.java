@@ -3,6 +3,8 @@ package com.example.demo.repository;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.ListCrudRepository;
 
 import com.example.demo.entities.Playlist;
@@ -13,5 +15,5 @@ public interface PlaylistRepository extends ListCrudRepository<Playlist, UUID> {
 	  List<Playlist> findByUserCode(UUID userCode);
 	  Playlist findByUserAndCode(User user, UUID code);
 	  List<Playlist> findByUserOrderByTitleAsc(User user);
-	  List<Playlist> findByUserAndTitleContainingIgnoreCaseOrderByTitleAsc(User user, String title);
+	  Page<Playlist> findByUserAndTitleContainingIgnoreCaseOrderByTitleAsc(Pageable pageable,User user, String title);
 }

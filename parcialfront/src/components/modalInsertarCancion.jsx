@@ -2,21 +2,23 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from "react"
-import { getSongs } from '../services/playlist';
+import { getSongsforSelect } from '../services/playlist';
 import Swal from 'sweetalert2'
 import { setSongs } from '../services/playlist';
 export default function ModalInsertarCancion(props){
     const token = localStorage.getItem('item')
     const [canciones, setCanciones] = useState([])
     const [cancionId, setCancionId] = useState('')
+    const [page, setPage] = useState(0)
    
     useEffect(() => {
         const searchSong = async() =>{
             const object = {
                 token: token,
-                cancion: ''
+                cancion: '',
+                page:page
             }
-            const res = await getSongs(object)
+            const res = await getSongsforSelect(object)
             const songs = (await res.json())
             console.log(songs)
             setCanciones(songs)

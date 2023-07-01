@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Playlist;
@@ -42,9 +44,9 @@ public class PlaylistImpl implements PlaylistService  {
 	}
 
 	@Override
-	public List<Playlist> getSongsInPlaylistsByUserandTitle(UUID username, String title) {
+	public Page<Playlist> getSongsInPlaylistsByUserandTitle(Pageable pageable,UUID username, String title) {
 		  User user = userService.findByCode(username);
-		  List<Playlist> playlist = playlistRepository.findByUserAndTitleContainingIgnoreCaseOrderByTitleAsc(user, title);
+		  Page<Playlist> playlist = playlistRepository.findByUserAndTitleContainingIgnoreCaseOrderByTitleAsc(pageable,user, title);
 		return playlist;
 	}
 

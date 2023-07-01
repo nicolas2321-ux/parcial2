@@ -3,6 +3,9 @@ package com.example.demo.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +28,10 @@ public class SongController {
 	private SongService songservice;
 	
 	@GetMapping(name = "/" )
-	public ResponseEntity<?> findallsongs(@RequestParam(required = false) String titleFragment){
+	public ResponseEntity<?> findallsongs(@RequestParam(required = false) String titleFragment, @RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "5") int size){
 	if(titleFragment != null) {
-		List<Song>song = songservice.findByTitle(titleFragment);
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Song>song = songservice.findByTitle(pageable,titleFragment);
 		return new ResponseEntity<>(
 				song, HttpStatus.OK);
 	}else {

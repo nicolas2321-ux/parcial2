@@ -8,13 +8,16 @@ export default function ModalBuscarPlaylist(props){
     const [nombrePlaylist, setNombrePlaylist] =useState('')
     const [showResultado, setShowResultado] = useState(false)
     const token = localStorage.getItem('item')
+
     useEffect(() => {
+      return () => {
         setNombrePlaylist('')
-       
+      };
     }, [props.show])
+    
     const handleBuscar = async () => {
         setShowResultado(true)
-        props.onHide()
+        //props.onHide()
     }
     return (
         <>

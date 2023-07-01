@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Song;
@@ -38,8 +40,8 @@ public class SongImpl implements SongService {
 	}
 
 	@Override
-	public List<Song> findByTitle(String title) {
-		return songRepository.findByTitleContainingIgnoreCase(title);
+	public Page<Song> findByTitle(Pageable pageable, String title) {
+		return songRepository.findByTitleContainingIgnoreCase(pageable,title);
 	}
 
 

@@ -3,10 +3,12 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
 import { songsInPlaylist } from '../services/playlist';
+import Pagination from 'react-bootstrap/Pagination';
 export default function ModalVerCancionesPlaylist(props){
     const token = localStorage.getItem('item')
     const [songs, setSongs] = useState([])
     const [totalDuration, setTotalDuration] = useState(0)
+    const [page, setPage] = useState(0)
     useEffect(() => {
         const getSongs  = async () =>{
             const object = {
